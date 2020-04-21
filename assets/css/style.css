@@ -33,6 +33,7 @@ main{
 }
 #container-films{
   background-color: gray;
+  border-radius: 6px;
   width: 95vw;
   height: calc(100vh - 70px);
   overflow: auto;
@@ -47,7 +48,6 @@ main{
   height: 300px;
   margin: 5px;
 }
-
 
 
  /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
