@@ -9,3 +9,67 @@
 ul{
   margin: 25px;
 }
+nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  height: 70px;
+  width: 100vw;
+  color: aliceblue;
+}
+nav h1{
+  margin-left: 25px;
+  color: darkred;
+  text-transform: uppercase;
+}
+#container-search{
+  margin-right: 25px;
+}
+main{
+  background-color: black;
+  display: flex;
+  justify-content: center;
+}
+#container-films{
+  background-color: gray;
+  width: 95vw;
+  height: calc(100vh - 70px);
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container-locandina{
+  border: 1px white solid;
+  border-radius: 14px;
+  width: 150px;
+  height: 300px;
+  margin: 5px;
+}
+
+
+
+ /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+ /* ++++++++++++++++++++++++++++++++ SCROLL BAR RULES +++++++++++++++++++++++++++++++++++ */
+ /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+ ::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: darkred;
+  border-radius: 60px;
+}
+::-webkit-scrollbar-track {
+  background: black;
+  border-radius: 39px;
+}
+::-webkit-scrollbar-corner {
+  background: black;
+}

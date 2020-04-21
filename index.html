@@ -8,22 +8,36 @@
     <body>
         <header>
             <nav>
-                <label>Cerca: <input id="search" type="text"></label>
-                <button id="find">Trova!</button>
+                <div id="container-logo">
+                    <h1>GermaFix</h1>
+                </div>
+                <div id="container-search">
+                    <label>Cerca: <input id="search" type="text"></label>
+                    <button id="find">Trova!</button>
+                </div>
             </nav>
         </header>
-        <div id="container-films">
-            
-        </div>
+        <main>
+            <div id="container-films">
+                
+            </div>
+        </main>
+        
+        
+        
         <script id="entry-template" type="text/x-handlebars-template">
-            <ul>
-                <li><b>Titolo: </b>{{titolo}}</li>
-                <li><b>Titolo Originale: </b>{{titoloOrig}}</li>
-                <li><b>Voto: </b>{{voto}}</li>
-                <li><b>Lingua: </b>{{lingua}}</li>
-            </ul>
+            <div class="container-locandina">
+                <div>
+                    <img src="locandina.jpg" alt="">
+                </div>
+                <ul>
+                    <li><b>Titolo: </b>{{titolo}}</li>
+                    <li><b>Titolo Originale: </b>{{titoloOrig}}</li>
+                    <li><b>Voto: </b>{{voto}}</li>
+                    <li><b>Lingua: </b>{{lingua}}</li>
+                </ul>
+            </div>
           </script>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="assets/js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
