@@ -2,6 +2,7 @@
 <html lang="it" dir="ltr">
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <title>GermaFix</title>
     </head>
@@ -25,16 +26,25 @@
         
         
         <script id="entry-template" type="text/x-handlebars-template">
+            
+            
             <div class="container-locandina">
-                <div>
-                    <img src="locandina.jpg" alt="">
+                
+                <div class="container-cover-locandina">
+                   <img class="locandina " src="{{poster}}" alt="">
                 </div>
-                <ul>
-                    <li><b>Titolo: </b>{{titolo}}</li>
-                    <li><b>Titolo Originale: </b>{{titoloOrig}}</li>
-                    <li><b>Voto: </b>{{voto}}</li>
-                    <li><b>Lingua: </b>{{lingua}}</li>
-                </ul>
+
+                <div class="container-info-locandina">
+                    <ul>
+                        <li><b>Titolo: </b><br> {{titolo}}</li>
+                        <li><b>Titolo Originale: </b><br>{{titoloOrig}}</li>
+                        <li><b>Voto: </b><span class="stelle">{{{voto}}}</span></li>
+                        <li><b>Lingua: </b>{{{lingua}}}
+                            
+                        </li>
+                    </ul>
+                </div>
+                
             </div>
           </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
