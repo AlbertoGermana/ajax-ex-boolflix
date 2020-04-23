@@ -15,13 +15,17 @@ nav{
   width: 100vw;
   color: aliceblue;
 }
-nav h1{
-  margin-left: 25px;
-  color: darkred;
-  text-transform: uppercase;
+#logo{
+  height: 50px;
+}
+#container-logo{
+  margin-left: 45px;
 }
 #container-search{
-  margin-right: 25px;
+  margin-right: 45px;
+}
+#container-search label{
+  color: #DC1A28
 }
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++ MAIN RULES +++++++++++++++++++++++++++++++++++ */
@@ -41,15 +45,19 @@ main{
   flex-wrap: wrap;
   justify-content: space-around;
 }
-
 .container-locandina{
   background-color: black;
   border: 1px white solid;
+  box-shadow: 4px 4px 8px 0px rgba(0,0,0,0.75);
   border-radius: 14px;
   width: 200px;
   height: 300px;
   margin: 5px;
   font-size: 85%;
+}
+.container-locandina:hover{
+  width: 250px;
+  transition: 0.5s ease;
 }
 .container-locandina ul{
   margin: 25px;
@@ -63,12 +71,15 @@ main{
   color: rgb(227, 227, 105);
   font-size: 90%;
 }
+.container-cover-locandina{
+  width: 100%;
+  height: 100%;
+}
 .container-cover-locandina img{
   width: 100%;
   height: 100%;
   border-radius: 14px;
 }
-
 .container-info-locandina{
   display: none;
 }
@@ -94,8 +105,33 @@ main{
 }
 ::-webkit-scrollbar-track {
   background: black;
-  border-radius: 39px;
 }
 ::-webkit-scrollbar-corner {
   background: black;
+}
+ /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+ /* ++++++++++++++++++++++++++++++ SEARCH BUTTON RULES +++++++++++++++++++++++++++++ */
+ /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+#find {
+	box-shadow:inset 0px 1px 0px 0px #cf866c;
+	background:linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
+	background-color:#d0451b;
+	border-radius:3px;
+	border:1px solid #942911;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:10px;
+	padding: 3px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #854629;
+}
+#find:hover {
+	background:linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
+	background-color:#bc3315;
+}
+#find:active {
+	position:relative;
+	top:1px;
 }

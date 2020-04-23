@@ -10,14 +10,21 @@
         <header>
             <nav>
                 <div id="container-logo">
-                    <h1>GermaFix</h1>
+                   <img id="logo" src="https://fontmeme.com/permalink/200423/6192fde8331ca6c7c31ebc6a736be4d0.png">
                 </div>
+
                 <div id="container-search">
                     <label>Cerca: <input id="search" type="text"></label>
+                    <select name="tipologia" id="tipologia">
+                        <option value="all">Tutto</option>
+                        <option value="film">Film</option>
+                        <option value="serie">Serie Tv</option>
+                    </select>
                     <button id="find">Trova!</button>
                 </div>
             </nav>
         </header>
+        
         <main>
             <div id="container-films">
                 
@@ -25,9 +32,7 @@
         </main>   
         
         
-        <script id="entry-template" type="text/x-handlebars-template">
-            
-            
+        <script id="entry-template" type="text/x-handlebars-template">           
             <div class="container-locandina">
                 
                 <div class="container-cover-locandina">
@@ -40,6 +45,7 @@
                         <li><b>Titolo Originale: </b><br>{{titoloOrig}}</li>
                         <li><b>Voto: </b><span class="stelle">{{{voto}}}</span></li>
                         <li><b>Lingua: </b>{{{lingua}}}
+                        <li><b>Descrizione: </b>{{{overview}}}
                             
                         </li>
                     </ul>
