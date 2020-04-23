@@ -1,4 +1,23 @@
 $(document).ready(function(){
+    
+    // ------------------------------------------------------------------------------
+    // ----------------- effetti grafici di mouse over e mouse leave ----------------
+    // ------------------------------------------------------------------------------
+    $('#container-films').on('mouseenter', '.container-locandina',function(){
+        $(this).children('.container-cover-locandina').hide();
+        $(this).children('.container-info-locandina').fadeIn();
+
+    }) 
+     $('#container-films').on('mouseleave', '.container-locandina',function(){
+        $(this).children('.container-cover-locandina').fadeIn();
+        $(this).children('.container-info-locandina').hide();
+    })
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
+    
+    
+    // oggetto che contiene per ogni key il codice lingua e per ogni valore il link corrispondente
     var bandiere = {
         de: 'assets/img/de.png',
         en: 'assets/img/en.png',
@@ -23,17 +42,7 @@ $(document).ready(function(){
             cercaFilm();
             cercaTeleFilm();
         }
-    });  
-    $('#container-films').on('mouseenter', '.container-locandina',function(){
-        $(this).children('.container-cover-locandina').hide();
-        $(this).children('.container-info-locandina').fadeIn();
-
-    }) 
-     $('#container-films').on('mouseleave', '.container-locandina',function(){
-        $(this).children('.container-cover-locandina').fadeIn();
-        $(this).children('.container-info-locandina').hide();
-
-    })
+    });
 
     // ---------------------------------------------------------------
     // --------------------------- FUNZIONI --------------------------
@@ -59,24 +68,10 @@ $(document).ready(function(){
                     var filmTrovato = data.results[i];
                     var voto = Math.ceil((filmTrovato.vote_average) / 2);  
                     
-                    //----------funzione per assegnazione bandierine
-                    /* var lingua, isFlagged, flagPath;
-                    for (key in bandiere){
-                        if(filmTrovato.original_language == key){
-                            isFlagged = true;
-                            flagPath = bandiere[key];                     
-                        }else{
-                            lingua = key;
-                        }
-                    }
-                    if(isFlagged){
-                        lingua = '<img src="' + flagPath + '">';
-                    } */
-                    // ------------------fine funzione bandierine
 
-
-                    // cerco di dare immagine predefinita quando non è trovata sul server
+                    // do immagine predefinita quando non è trovata sul server
                     var poster = 'assets/img/img-not-found.png';
+                    // se il path viene trovato allora lo concateno all'endpoint dell'url
                     if(filmTrovato.poster_path){
                         poster = 'https://image.tmdb.org/t/p/w300' + filmTrovato.poster_path;
                     }
@@ -122,22 +117,8 @@ $(document).ready(function(){
                     var serieTvTrovata = data.results[i];
                     // converto i vota da 1 a 10 --> da 1 a 5
                     var voto = Math.ceil((serieTvTrovata.vote_average) / 2);  
-
-                     //----------funzione per assegnazione bandierine
-                   /*  var lingua, isFlagged, flagPath;
-                    for (key in bandiere){
-                        if(serieTvTrovata.original_language == key){
-                            isFlagged = true;
-                            flagPath = bandiere[key];                     
-                        }else{
-                            lingua = key;
-                        }
-                    }
-                    if(isFlagged){
-                        lingua = '<img src="' + flagPath + '">';
-                    } */
-                    //----------------- fine funzione bandierine
-
+                    
+                    // se il path viene trovato allora lo concateno all'endpoint dell'url
                     var poster = 'assets/img/img-not-found.png';
                     if(serieTvTrovata.poster_path){
                         poster = 'https://image.tmdb.org/t/p/w300' + serieTvTrovata.poster_path;
