@@ -11,8 +11,22 @@ $(document).ready(function(){
         $(this).children('.container-info-locandina').hide();
     })
     // ------------------------------------------------------------------------------
+    var api_key = "3947dc4eaa205fcbba3061dfa648e63c";
     
+    var arrayLingue = []; //array che contiene codice e nome delle lingue
+    var arrayGeneriFilm = [];//array che contiene id e nome dei generi dei film
+    var arrayGeneriSerie = []; //array che contiene id e nome dei generi delle serie
+    var unicoArray = []; //array che contiene id e nome dei generi di tutti
     
+    popolaLingua();
+    popolaGeneriSerie();
+    popolaGeneriFilm();
+    
+    $('#logo').on('click',function(){
+        /* unicoArray = unisciArray(arrayGeneriFilm,arrayGeneriSerie); */
+        convertiGeneri([12, 35, 878, 10751], unicoArray)
+    })
+
     //al click del tasto Trova
     $('#find').on('click', function(){
         var ricerca = $('#search').val(); // catturo valore scritto nell'input
@@ -26,7 +40,7 @@ $(document).ready(function(){
         }
 
     }); //on.click di #find
-    
+
     //alla pressione del tasto invio dentro la casella di ricerca
     $('#search').keypress(function (e) {
         var key = e.which;
@@ -42,7 +56,9 @@ $(document).ready(function(){
             }
         }
     });
-
+    
+    
+    
     // ---------------------------------------------------------------
     // --------------------------- FUNZIONI --------------------------
     // --------------------------------------------------------------- 
@@ -50,19 +66,25 @@ $(document).ready(function(){
     // Questa funzione cerca un film o una serieTv. Bisogna specificare se si cerca SerieTv o film e il titolo di ciò che si vuole cercare.
     function cerca(filmOserie, query){
         var urlInserito;
-        
+        var type;
         if(filmOserie == 'film'){
             urlInserito = 'https://api.themoviedb.org/3/search/movie?';
+            type = 'movie';
         }else if (filmOserie == 'serie'){
             urlInserito = 'https://api.themoviedb.org/3/search/tv?';
+            type = 'tv';
         }
+       
+       
+        
         // chiamata ajax per interrogare sito TheMovieDb
         $.ajax({
             url: urlInserito,
             method: "GET",
             data: {
-                api_key: "3947dc4eaa205fcbba3061dfa648e63c",
+                api_key: api_key,
                 query: query,
+                /* append_to_response: 'credits' */
             },  
             success: function(data){
                 // ciclo ogni risultato della query
@@ -78,33 +100,43 @@ $(document).ready(function(){
 
                     // converto i voti da 1 a 10 --> da 1 a 5
                     var voto = Math.ceil((data.results[i].vote_average) / 2);  
-                    // descrizione del film o telefilm
-                    var overview = data.results[i].overview;
-                    overview = overview.substring(0, 200) + "..."; //gli imposto limite caratteri
+                    // valorizzo "lingua" con il valore della lingua prelevato dal risultato della query
+                    var lingua = data.results[i].original_language;
+                    
                     // dò immagine predefinita quando non è trovata sul server
                     var poster = 'assets/img/img-not-found.png';
                     if(data.results[i].poster_path){
                         poster = 'https://image.tmdb.org/t/p/w300' + data.results[i].poster_path;
                     }
-                    // valorizzo "lingua" con il valore della lingua prelevato dal risultato della query
-                    var lingua = data.results[i].original_language;
+                    // descrizione del film o telefilm
+                    var overview = data.results[i].overview;
+                    overview = overview.substring(0, 200) + "..."; //gli imposto limite caratteri
 
                     //uso handlebars per dinamicizzare i risultati in html
                     var source = $("#entry-template").html();
                     var template = Handlebars.compile(source);
+                    var generiIds = data.results[i].genre_ids;
+                    unicoArray = unisciArray(arrayGeneriFilm,arrayGeneriSerie);
+                    var generi = convertiGeneri(generiIds, unicoArray);
                     
+                    
+                                        
                     var context = {
                     titolo: titolo, // titolo varia se è film o serieTV
                     titoloOrig: titoloOrig, // titoloOrig varia se è film o serieTV
                     voto: creaStelle(voto), // richiamo funzione per stampare stelle in base al voto
                     lingua: inserisciBandiera(lingua), // richiamo funzione per stampare bandiere in base al codice restituito dal risultato della query
+                    genere: generi,
                     poster: poster, // immagine di copertina dell'oggetto
                     overview: overview // descrizione del film-serieTv
                     };
                     var html = template(context);
-                    $('#container-films').append(html); // appendo oggetto all'html                   
+                    $('#container-films').append(html); // appendo oggetto all'html    
+                    
+                    /* cercaGenere(id, filmOserie); */
                 }
             },
+            error: function(){}
         })  
     }
     
@@ -128,5 +160,105 @@ $(document).ready(function(){
         } else{
           return valore;
         }
-      }
+    }
+
+    function popolaLingua(){
+        $.ajax({
+            url: 'https://api.themoviedb.org/3/configuration/languages',
+            method: "GET",
+            data: {
+                api_key: api_key
+            },  
+            success: function(data){
+                // ciclo ogni risultato della query
+                for (var i = 0; i < data.length; i++) {
+                    $('#languages').append('<option value="' + data[i].iso_639_1 + '">' + data[i].english_name + '</option>');
+                    arrayLingue.push({
+                        'id': data[i].iso_639_1,
+                        'name': data[i].english_name
+                    })
+                }
+            },
+            error: function(req, err){
+                console.log("errore", err);
+            } 
+        })  
+    }
+    function popolaGeneriSerie(){
+        $.ajax({
+            url: 'https://api.themoviedb.org/3/genre/tv/list',
+            method: "GET",
+            data: {
+                api_key: api_key
+            },  
+            success: function(data){
+                // ciclo ogni risultato della query
+                for (var i = 0; i < data.genres.length; i++) {
+                    arrayGeneriSerie.push({
+                        'id': data.genres[i].id,
+                        'name': data.genres[i].name
+                    })
+                }
+            },
+            error: function(req, err){
+                console.log("errore", err);
+            } 
+        })  
+    }
+    function popolaGeneriFilm(){
+        $.ajax({
+            url: 'https://api.themoviedb.org/3/genre/movie/list',
+            method: "GET",
+            data: {
+                api_key: api_key
+            },  
+            success: function(data){
+                // ciclo ogni risultato della query
+                for (var i = 0; i < data.genres.length; i++) {
+                    arrayGeneriFilm.push({
+                        'id': data.genres[i].id,
+                        'name': data.genres[i].name
+                    })
+                }
+            },
+            error: function(req, err){
+                console.log("errore", err);
+            } 
+        })  
+    }
+    // funzione che unisce due array e toglie doppioni
+    function unisciArray(arrayUno, arrayDue) {  
+        for (var i = 0; i < arrayDue.length; i++){
+            for (var j = 0; j < arrayUno.length; j++){
+                if(!arrayDue[i]==arrayUno[j]){
+                    arrayUno.push(arrayDue[i]);
+                }
+            }
+        }
+        return arrayUno;
+    }
+    
+    // funzione che converte i codici dei generi in genere a lettere
+    function convertiGeneri(arrayDaConvertire, arrayCodiciParole){
+        var generi = "";
+        for (var i = 0; i < arrayDaConvertire.length; i++) {
+            for(var j = 0; j < arrayCodiciParole.length; j++){
+                if(arrayDaConvertire[i] == arrayCodiciParole[j].id){
+                    generi += arrayCodiciParole[j].name + ", ";
+                }
+            }
+        }
+        generi = generi.slice(0, generi.length - 2); // cancello l'ultima virgola
+        
+        return generi
+    }
 })
+
+
+/* 
+todo:
+
+
+all'interno del risultato del film-serie convertire il codice con il genere
+
+*/
