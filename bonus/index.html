@@ -14,26 +14,32 @@
                 </div>
 
                 <div id="container-search">
-                    <label>Cerca: <input id="search" type="text"></label>
-                    <select name="tipologia" id="tipologia">
-                        <option value="all">Tutto</option>
-                        <option value="film">Film</option>
-                        <option value="serie">Serie Tv</option>
-                    </select>
-                    <button id="find">Trova!</button>
+                    <div id="filters">
+                        <select name="lang" id="languages">
+                        
+                        </select>
+                        <label>Cerca: <input id="search" type="text"></label>
+                        <select name="tipologia" id="tipologia">
+                            <option value="all">Tutto</option>
+                            <option value="film">Film</option>
+                            <option value="serie">Serie Tv</option>
+                        </select>
+                        <button id="find">Trova!</button>
+                    </div>
+
                 </div>
             </nav>
         </header>
         
         <main>
             <div id="container-films">
-                
+               
             </div>
         </main>   
         
         
         <script id="entry-template" type="text/x-handlebars-template">           
-            <div class="container-locandina">
+            <div class="container-locandina" data-id="{{{idElemento}}}">
                 
                 <div class="container-cover-locandina">
                    <img class="locandina " src="{{poster}}" alt="">
@@ -45,6 +51,8 @@
                         <li><b>Titolo Originale: </b><br>{{titoloOrig}}</li>
                         <li><b>Voto: </b><span class="stelle">{{{voto}}}</span></li>
                         <li><b>Lingua: </b>{{{lingua}}}
+                        <li><b>Genere: </b><span class='generi'>{{{genere}}}</span>
+                        <li><b>Cast: </b>{{{cast}}}
                         <li><b>Descrizione: </b>{{{overview}}}
                             
                         </li>
@@ -53,6 +61,11 @@
                 
             </div>
           </script>
+
+          <script id="filters-template" type="text/x-handlebars-template">           
+            
+          </script>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="assets/js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
