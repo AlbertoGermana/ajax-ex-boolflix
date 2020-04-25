@@ -6,6 +6,9 @@
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++ HEADER RULES +++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.red{
+  color: #DC1A28;
+}
 nav{
   display: flex;
   justify-content: space-between;
@@ -22,10 +25,45 @@ nav{
   margin-left: 45px;
 }
 #container-search{
+  display: flex;
+  align-items: center;
   margin-right: 45px;
 }
-#container-search label{
-  color: #DC1A28
+.theme{
+  border-radius:3px;
+  border:1px solid #942911;
+  background-color:#d0451b;
+  color:#ffffff;
+  margin-right: 3px;
+  text-indent: 5px;
+}
+#tipologia{
+  width: 80px;
+}
+#avvisi{
+  align-self: flex-end;
+}
+#avvisi span{
+  margin: 0 4px;
+  color: #d0451b;
+}
+#search::placeholder{
+  color: white;
+  text-indent: 5px;
+}
+#search:focus::-webkit-input-placeholder { 
+  color:transparent; 
+  transition: 0.3s ease;
+}
+#baubaumiciomicio{
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  height: 25px;
+  align-items: center;
 }
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++ MAIN RULES +++++++++++++++++++++++++++++++++++ */
@@ -62,9 +100,8 @@ main{
   font-size: 85%;
 }
 .container-locandina:hover{
-  /* width: 280px; */
+  width: 280px;
   transition: 0.5s ease;
-  transform: scale(1.05);
 }
 .container-locandina ul{
   margin: 25px;
@@ -72,7 +109,7 @@ main{
 }
 .container-locandina ul li{
   list-style-type: none;
-  margin-bottom: 8px;
+  margin-bottom: 3px;
 }
 .stelle{
   color: rgb(227, 227, 105);

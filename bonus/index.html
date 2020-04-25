@@ -4,31 +4,38 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
         <link rel="stylesheet" href="assets/css/style.css">
-        <title>GermaFix</title>
+        <title>GermaFlix</title>
     </head>
     <body>
         <header>
             <nav>
                 <div id="container-logo">
-                   <img id="logo" src="https://fontmeme.com/permalink/200423/6192fde8331ca6c7c31ebc6a736be4d0.png">
+                   <img id="logo" src="https://fontmeme.com/permalink/200425/caaab42485a1c3c6c0cf855a3af796af.png">
                 </div>
+
+                <div id="avvisi">
+                    <span id="filmFound"></span>
+                    <span id="serieFound"></span>
+                </div>
+
 
                 <div id="container-search">
                     <div id="filters">
-                        <select name="lang" id="languages">
-                        
+                        <select name="generi" id="select_generi" class="theme">
+                                
                         </select>
-                        <label>Cerca: <input id="search" type="text"></label>
-                        <select name="tipologia" id="tipologia">
-                            <option value="all">Tutto</option>
-                            <option value="film">Film</option>
-                            <option value="serie">Serie Tv</option>
-                        </select>
-                        <button id="find">Trova!</button>
-                    </div>
-
+                    </div> 
+                    <input id="search" class="theme" type="text" placeholder="Cerca Film o SerieTV..">
+                    <select name="tipologia" id="tipologia" class="theme" >
+                        <option value="all">Tutto</option>
+                        <option value="film">Film</option>
+                        <option value="serie">Serie Tv</option>
+                    </select>
+                    <button id="find">Trova!</button>
+                    
                 </div>
             </nav>
+            
         </header>
         
         <main>
@@ -39,7 +46,7 @@
         
         
         <script id="entry-template" type="text/x-handlebars-template">           
-            <div class="container-locandina" data-id="{{{idElemento}}}">
+            <div class="container-locandina {{datageneri}}" data-id="{{{idElemento}}}">
                 
                 <div class="container-cover-locandina">
                    <img class="locandina " src="{{poster}}" alt="">
@@ -47,13 +54,13 @@
 
                 <div class="container-info-locandina">
                     <ul>
-                        <li><b>Titolo: </b><br> {{titolo}}</li>
-                        <li><b>Titolo Originale: </b><br>{{titoloOrig}}</li>
-                        <li><b>Voto: </b><span class="stelle">{{{voto}}}</span></li>
-                        <li><b>Lingua: </b>{{{lingua}}}
-                        <li><b>Genere: </b><span class='generi'>{{{genere}}}</span>
-                        <li><b>Cast: </b>{{{cast}}}
-                        <li><b>Descrizione: </b>{{{overview}}}
+                        <li><b class="red">Titolo: </b><br> {{titolo}}</li>
+                        <li><b class="red">Titolo Originale: </b><br>{{titoloOrig}}</li>
+                        <li><b class="red">Voto: </b><span class="stelle">{{{voto}}}</span></li>
+                        <li><b class="red">Lingua: </b>{{{lingua}}}
+                        <li><b class="red">Genere: </b><span class='generi'>{{{genere}}}</span>
+                        <li><b class="red">Cast: </b>{{{cast}}}
+                        <li><b class="red">Descrizione: </b>{{{overview}}}
                             
                         </li>
                     </ul>
