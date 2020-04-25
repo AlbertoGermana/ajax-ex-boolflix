@@ -6,6 +6,9 @@
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++ HEADER RULES +++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.red{
+  color: #DC1A28;
+}
 nav{
   display: flex;
   justify-content: space-between;
@@ -22,10 +25,45 @@ nav{
   margin-left: 45px;
 }
 #container-search{
+  display: flex;
+  align-items: center;
   margin-right: 45px;
 }
-#container-search label{
-  color: #DC1A28
+.theme{
+  border-radius:3px;
+  border:1px solid #942911;
+  background-color:#d0451b;
+  color:#ffffff;
+  margin-right: 3px;
+  text-indent: 5px;
+}
+#tipologia{
+  width: 80px;
+}
+#avvisi{
+  align-self: flex-end;
+}
+#avvisi span{
+  margin: 0 4px;
+  color: #d0451b;
+}
+#search::placeholder{
+  color: white;
+  text-indent: 5px;
+}
+#search:focus::-webkit-input-placeholder { 
+  color:transparent; 
+  transition: 0.3s ease;
+}
+#baubaumiciomicio{
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  height: 25px;
+  align-items: center;
 }
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++ MAIN RULES +++++++++++++++++++++++++++++++++++ */
@@ -41,9 +79,15 @@ main{
   width: 95vw;
   height: calc(100vh - 70px);
   overflow: auto;
+  padding-top: 25px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+#languages{
+  background-color: black;
+  color: white;
 }
 .container-locandina{
   background-color: black;
@@ -52,11 +96,12 @@ main{
   border-radius: 14px;
   width: 200px;
   height: 300px;
-  margin: 5px;
+  margin: 25px 30px;
   font-size: 85%;
 }
 .container-locandina:hover{
-  width: 250px;
+  width: 256px;
+  margin: 25px 4px;
   transition: 0.5s ease;
 }
 .container-locandina ul{
@@ -65,7 +110,7 @@ main{
 }
 .container-locandina ul li{
   list-style-type: none;
-  margin-bottom: 8px;
+  margin-bottom: 3px;
 }
 .stelle{
   color: rgb(227, 227, 105);
@@ -91,7 +136,7 @@ main{
  /* ++++++++++++++++++++++++++++++ SCROLL BAR RULES ++++++++++++++++++++++++++++++++ */
  /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
- ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 14px;
   height: 14px;
 }
