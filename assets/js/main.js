@@ -1,15 +1,38 @@
 /* 
-Milestone 5 (Opzionale):
-Partendo da un film o da una serie, richiedere all'API quali sono gli attori che fanno parte del cast aggiungendo alla nostra scheda Film / Serie SOLO i primi 5 restituiti dall’API con Nome e Cognome, e i generi associati al film con questo schema: “Genere 1, Genere 2, …”.
 
+document.ready --->  riga: 30
+effetti grafici --->  riga: 32
+variabili globali --->  riga: 44
+funzioni all'avvio della pagina --->  riga: 58
+eventi --->  riga: 65
+evento al click del tasto trova --->  riga: 67
+evento alla pressione di invio nel campo ricerca --->  riga: 72
+evento alla selezione del genere --->  riga: 81
+funzioni --->  riga: 112
+funzione per cercare (utilizzata con eventi click e keypress) ---> riga: 117
+funzione per cercare serieTv nel db --->  riga: 146
+funzione per cercare film nel db --->  riga: 209
+funzione che converte voto in stelle --->  riga: 273
+funzione che converte lingua in bandiere --->  riga: 287
+funzione che popola array dei generi delle serie --->  riga: 298
+funzione che popola array dei generi dei film --->  riga: 322
+funzione che unisce array dei generi delle serie e film--->  riga: 346
+funzione che converte i codici dei generi in parole --->  riga: 360
+funzione che adatta la stringa dei generi per poterle aggiungere alle classi --->  riga: 373
+funzione salva 5 attori nell'array --->  riga: 381
+funzione che popola la select dei generi in html--->  riga: 424
+funzione che stampa gli attori in html --->  riga: 440
 */
+
+
+// -----------------------------------------------------------------------------------
+
 $(document).ready(function(){
     $('#filters').hide();
     // ----------------- effetti grafici di mouse over e mouse leave ----------------
     $('#container-films').on('mouseenter', '.container-locandina',function(){
         $(this).children('.container-cover-locandina').hide();
         $(this).children('.container-info-locandina').fadeIn();
-
     }) 
     $('#container-films').on('mouseleave', '.container-locandina',function(){
         $(this).children('.container-cover-locandina').fadeIn();
@@ -20,99 +43,41 @@ $(document).ready(function(){
 
     // ---------------- dichiarazione variabili globali -----------------------------
     var api_key = "3947dc4eaa205fcbba3061dfa648e63c";
-     
-    var arrayGeneriFilm = [];//array che contiene id e nome dei generi dei film
+    var arrayGeneriFilm = []; //array che contiene id e nome dei generi dei film
     var arrayGeneriSerie = []; //array che contiene id e nome dei generi delle serie
     var arrayId = []; // array che contiene gli id dei risultati
-
-    var objCastFiltrato = [];// array di oggetti che contiene gli attori dei film-serie trovati
+    var objCastFiltrato = []; // array di oggetti che contiene gli attori dei film-serie trovati
     var filmTrovati = [];
     var serieTrovate = [];
     var arrayGeneriFilmSerie = unisciArray(arrayGeneriFilm,arrayGeneriSerie); //array che contiene id e nome dei generi di tutti
+    var genreIsHidden = true;
     // ------------------------------------------------------------------------------
 
+
+
     // ------------------------ richiamo funzioni -----------------------------------
-    /* popolaLingua(); */ // richiamo funzione che popola l'array "arrayLingue"
     popolaGeneriSerie(); // richiamo funzione che popola l'array "arrayGeneriSerie"
     popolaGeneriFilm(); // richiamo funzione che popola l'array "arrayGeneriFilm"
     // ------------------------------------------------------------------------------
 
-    $('#container-logo').on('click', function(){
-        console.log('film trovati: '+ filmTrovati.length);
-        console.log('serie trovate' + serieTrovate.length);
-    })
+
 
     // ------------------------ gestisco eventi -------------------------------------
 
     //al click del tasto Trova
     $('#find').on('click', function(){
-        arrayId = [];
-        popolaFiltroGeneri();
-        var ricerca = $('#search').val(); // catturo valore scritto nell'input
-        $('#container-films').html(''); // svuoto l'html
-        // controllo se l'utente seleziona la ricerca su tutto, film o serie tv
-        if($('#tipologia').val() == "all"){ // se cerca tutto
-            cercaFilm(ricerca); // avvio funzione di ricerca per film
-            cercaSerie(ricerca); // avvio funzione di ricerca per serie
-        }else if($('#tipologia').val() == "film"){
-            cercaFilm(ricerca); // avvio funzione di ricerca per film
-        }else{
-            cercaSerie(ricerca); // avvio funzione di ricerca per serie
-        }
-        //azzero la notifica di quante serie o film sono stati trovati
-        $('#filmFound').html('');
-        $('#serieFound').html('');
-        
-    }); //on.click di #find
+        cerca(); //avvio funzione di ricerca
+    });
 
     //alla pressione del tasto invio dentro la casella di ricerca
     $('#search').keypress(function (e) {
         var key = e.which;
         if(key == 13){
-            arrayId = [];
-            popolaFiltroGeneri();
-            var ricerca = $('#search').val(); // catturo valore scritto nell'input
-            $('#container-films').html(''); // svuoto l'html
-            // controllo se l'utente seleziona la ricerca su tutto, film o serie tv
-            if($('#tipologia').val() == "all"){ // se cerca tutto
-                cercaFilm(ricerca); // avvio funzione di ricerca per film
-                cercaSerie(ricerca); // avvio funzione di ricerca per serie
-            }else if($('#tipologia').val() == "film"){
-                cercaFilm(ricerca); // avvio funzione di ricerca per film
-            }else{
-                cercaSerie(ricerca); // avvio funzione di ricerca per serie
-            }
-        //azzero la notifica di quante serie o film sono stati trovati
-        $('#filmFound').html('');
-        $('#serieFound').html('');
-        
-/*         
-        // ?? creare funzione e richiamarla qui e all'evento click?
-        console.log(objCastFiltrato);
-
-        // confrontare per ogni codice che si trova nel data-attribute coincida quello presente nell'array di oggetti e restituisci di questo i nomi degli attori, stampandoli nell'html
-        // tradotto:
-
-        //data-attribute è tra gli ID di objCastFiltrato?
-        $("#container-films").each(".container-locandina", function(){
-            for (var i = 0; i < objCastFiltrato.length; i++){
-                if($(this).data('id') == objCastFiltrato[i].id){
-                    console.log(objCastFiltrato);
-                    console.log(objCastFiltrato[i]);
-                    console.log(objCastFiltrato[i].id);
-                }else{
-                    console('non va')
-                }
-            }
-        })
-        //salva i nomi degli attori in una variabile (?)
-
-        //stampali in html nell'elemento corrispondente
-*/
+            cerca(); //avvio funzione di ricerca
         } 
-
     });
         
+    
     //alla selezione del genere:
     $('#select_generi').on('change', function(){
         //salvo il valore selezionato
@@ -132,25 +97,49 @@ $(document).ready(function(){
                     }else{
                         $(this).hide(); //se no nascondile
                     }
-                })
+                });
             }
-       })   
-    })
+       }); 
+    });
 
 
     //uso handlebars per dinamicizzare i risultati in html
     var source = $("#entry-template").html();
     var template = Handlebars.compile(source);
-  
-    
-
 
 
     // ---------------------------------------------------------------
     // --------------------------- FUNZIONI --------------------------
     // --------------------------------------------------------------- 
-     
-    
+    // ------------------------ FUNZIONE CERCA  ---------------------- 
+    // funzione che controlla i dati inseriti nel campo di ricerca ed effettua la ricerca, richiamando altre funzioni.
+    function cerca (){
+        arrayId = []; //svuoto l'arrayId se dovesse essere già popolato
+        popolaFiltroGeneri(); // avvio funzione per popolare la select dei generi
+        var ricerca = $('#search').val(); // catturo valore scritto nell'input
+        if(ricerca != ""){
+            $('#container-films').html(''); // svuoto l'html
+            // controllo se l'utente seleziona la ricerca su tutto, film o serie tv
+            if($('#tipologia').val() == "all"){ // se cerca tutto
+                cercaFilm(ricerca); // avvio funzione di ricerca per film
+                cercaSerie(ricerca); // avvio funzione di ricerca per serie
+            }else if($('#tipologia').val() == "film"){
+                cercaFilm(ricerca); // avvio funzione di ricerca per film
+            }else{
+                cercaSerie(ricerca); // avvio funzione di ricerca per serie
+            }
+            //azzero la notifica di quante serie o film sono stati trovati
+            $('#filmFound').html('');
+            $('#serieFound').html('');
+
+            // avvio funzione che preleva id dati da un array che contiene id-film/serie e i nomi dei primi 5 attori di quel film/serie e li stampa nelle relative locandine
+            stampaCast();
+        }else{
+            alert('Immetti nel campo di ricerca un titolo');
+        }
+    }
+
+
     // ---------------- FUNZIONE CERCA SERIE ----------------------
     // Questa funzione cerca una serieTv.
     function cercaSerie(query){
@@ -180,7 +169,7 @@ $(document).ready(function(){
 
                     // descrizione del film o telefilm
                     var overview = oggetto[i].overview;
-                    overview = overview.substring(0, 200) + "..."; //gli imposto limite caratteri
+                    overview = overview.substring(0, 140) + "..."; //gli imposto limite caratteri
 
                     //variabile che racoglie il codice id dei generi di quel film-serie
                     var generi = convertiGeneri(oggetto[i].genre_ids, arrayGeneriFilmSerie);//richiamo funzione che converte i codici dei generi e restituisce parole             
@@ -209,9 +198,6 @@ $(document).ready(function(){
                 for (var i = 0; i < arrayId.length; i++) {
                     castFilmSerie(arrayId[i], "serie");
                 };
-                
-                
-      
             },
             error: function(){}
         })  
@@ -267,7 +253,6 @@ $(document).ready(function(){
                     //popolo array con gli id dei film trovati
                     filmTrovati.push(oggetto[i].id)
                     
-                    
                 }  
                 //stampo in html il numero di risultati 
                 $('#filmFound').append('Film trovati: ' + filmTrovati.length);
@@ -307,9 +292,6 @@ $(document).ready(function(){
         }
     }
 
-
-
-
     
     // ---------------- FUNZIONE POPOLA ARRAY GENERI SERIE ----------------------
     function popolaGeneriSerie(){
@@ -333,6 +315,7 @@ $(document).ready(function(){
             } 
         })  
     }
+  
     
     // ---------------- FUNZIONE POPOLA ARRAY GENERI FILM ----------------------
     function popolaGeneriFilm(){
@@ -398,13 +381,14 @@ $(document).ready(function(){
     //funzione che prende id film-serie prelevato da html e lo utilizza per risalire al cast
     function castFilmSerie(idFilmSerie, tipo){
         var attori = []; //array dove verranno inseriti gli attori
-        if (tipo === "film"){
-            tipo = 'movie';
-        }else if(tipo === "serie"){
-            tipo = 'tv';
+        var isFilm = true; 
+        if (tipo === isFilm){ //se isFilm è true
+            tipo = 'movie'; //valorizzo con movie
+        }else{
+            tipo = 'tv'; // valorizzo con tv
         }
-        $.ajax({
-            url: 'https://api.themoviedb.org/3/'+ tipo + '/' + idFilmSerie + '/credits',
+        $.ajax({ 
+            url: 'https://api.themoviedb.org/3/'+ tipo + '/' + idFilmSerie + '/credits', //adeguo url
             method: "GET",
             data: {
                 api_key: api_key,
@@ -431,36 +415,42 @@ $(document).ready(function(){
                     });
                 },
                 error: function(req, err){
-                    console.log("errore", err);
+                    console.log("Errore nella funzione CastFilmSerie()", err);
                 } 
         }) 
     }
     
+    // ---------------- FUNZIONE POPOLA SELECT GENERI ----------------------
     function popolaFiltroGeneri(){
-        //popolo il filtro dei generi
-        $('#filters').fadeIn(); //mostro la select
-        $('#select_generi').append('<option value="all">--- all ---</option>') //gli appendo subito la categoria "all"
-        for(var i = 0; i < arrayGeneriFilmSerie.length; i++){
-            //creo gli elementi della select prelevandoli dall'array
-            $('#select_generi').append(
-                '<option value="' + arrayGeneriFilmSerie[i].name + '">' + arrayGeneriFilmSerie[i].name + '</option>'
-            )
+        if (genreIsHidden){
+            //popolo il filtro dei generi
+            $('#filters').fadeIn(); //mostro la select
+            $('#select_generi').append('<option value="all">--- all ---</option>') //gli appendo subito la categoria "all"
+            for(var i = 0; i < arrayGeneriFilmSerie.length; i++){
+                //creo gli elementi della select prelevandoli dall'array
+                $('#select_generi').append(
+                    '<option value="' + arrayGeneriFilmSerie[i].name + '">' + arrayGeneriFilmSerie[i].name + '</option>'
+                )
+            }
+            genreIsHidden = false; // imposto variabile su false cosi da non ripetere la funzione
         }
     };
 
-
+    // ---------------- FUNZIONE STAMPA 5 ATTORI IN HTML ----------------------    
+    function stampaCast() {
+        //ritardo la funzione così da dare il tempo alle chiamate ajax di essere effettuate
+        setTimeout(function(){
+            //per ogni locandina
+            $("#container-films .container-locandina").each(function(){
+                //per ogni elemento dell'array di oggetti
+                for (var i = 0; i < objCastFiltrato.length; i++){
+                    //se id della locandina è uguale all'id dell'array di oggetti
+                    if($(this).data('id') == objCastFiltrato[i].id){
+                        //scrivo nell'html gli attori in quella determinata locandina
+                        $('[data-id=' + objCastFiltrato[i].id + ']').find('.cast').text(objCastFiltrato[i].actors);
+                    }
+                }
+            })
+        },300)
+    }
 })    
-
-
-
-/* 
-todo:
-aggiungere data-attr per  e generi
-tramite select filtrare i data-attribute
-
-popolare l'oggetto contenente id e attori
-per ogni elemento in html avente quell'ID dai con handlebars quegli attori
-
-- controllo se si fa una ricerca vuota
-
-*/
